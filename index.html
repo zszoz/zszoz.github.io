@@ -1,44 +1,423 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-  <meta name="description" content="تحويل العربي الي انجليزي">
-<meta name="keywords" content="أداة، تحويل نصوص، تقنية، أداة ذكية">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="google-adsense-account" content="ca-pub-3848609364752049">
-  <meta charset="UTF-8">
-  <title>محول الكيبورد</title>
-  <link rel="stylesheet" href="whats upm.css">
-  <link rel="icon" href="https://i.postimg.cc/8cCB1sVX/file-00000000906851f894af1d78127f811f-conversation-id-67f4d82c-3ebc-8005-bae8-4c74c5366836-message-i.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لعبة UNO</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-  <div id="nav" style="background-color: #333; padding: 10px; text-align: center;">
-    <ul style="list-style-type: none; padding: 0; display: inline-flex; gap: 20px;">
-      <li><a href="about.html" class="nav-link" style="text-decoration: none; color: white; font-weight: bold; padding: 10px;"target="_blank">اتصل بنا</a></li>
-      <li><a href="conectus.html" class="nav-link" style="text-decoration: none; color: white; font-weight: bold; padding: 10px;"target="_blank">من نحن</a></li>
-      <li><a href="siash.html" class="nav-link" style="text-decoration: none; color: white; font-weight: bold; padding: 10px;"target="_blank">سياسة الخصوصية</a></li>
-      <li><a href="about-me.html" class="nav-link" style="text-decoration: none; color: white; font-weight: bold; padding: 10px;" target="_blank">عني</a></li>
-    </ul>
-  </div>
-  <h2>محوّل الكيبورد</h2>
+    <!-- شاشة البداية -->
+    <div id="startScreen" class="screen active">
+        <div class="start-container">
+            <h1 class="game-title">
+                <span class="uno-u">U</span>
+                <span class="uno-n">N</span>
+                <span class="uno-o">O</span>
+            </h1>
+            <div class="start-options">
+                <button id="singlePlayerBtn" class="start-btn">
+                    <i class="fas fa-user"></i>
+                    لعب فردي
+                </button>
+                <button id="multiPlayerBtn" class="start-btn">
+                    <i class="fas fa-users"></i>
+                    لعب جماعي
+                </button>
+                <button id="settingsBtn" class="start-btn">
+                    <i class="fas fa-cog"></i>
+                    الإعدادات
+                </button>
+            </div>
+        </div>
+    </div>
 
+    <!-- شاشة إعدادات اللعبة -->
+    <div id="gameSetupScreen" class="screen">
+        <div class="setup-container">
+            <h2>إعداد اللعبة</h2>
+            <div class="setup-options">
+                <div class="option-group">
+                    <label for="playerCount">عدد اللاعبين:</label>
+                    <select id="playerCount">
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4" selected>4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+                
+                <div class="option-group">
+                    <label for="aiDifficulty">صعوبة الذكاء الاصطناعي:</label>
+                    <select id="aiDifficulty">
+                        <option value="easy">سهل</option>
+                        <option value="medium" selected>متوسط</option>
+                        <option value="hard">صعب</option>
+                    </select>
+                </div>
 
-  <select id="direction">
-    <option value="en-to-ar">إنجليزي لعربي</option>
-    <option value="ar-to-en">عربي لإنجليزي</option>
-  </select>
+                <div class="option-group">
+                    <label for="scoreLimit">هدف النقاط:</label>
+                    <select id="scoreLimit">
+                        <option value="200">200</option>
+                        <option value="300">300</option>
+                        <option value="500" selected>500</option>
+                        <option value="1000">1000</option>
+                    </select>
+                </div>
 
-  <textarea id="inputText" placeholder="اكتب النص هنا..."></textarea>
-  <button onclick="convertText()">تحويل</button>
-  <textarea id="outputText" placeholder="النص بعد التحويل..."></textarea>
-  <div id="privacy" style="margin-top: 50px; background-color: #f0f0f0; padding: 20px; border-radius: 10px;">
-    <h2 style="color: #333;">سياسة الخصوصية</h2>
-  
-<br>
-<footer class="zzz" style=" background-color: #000000; border-radius: 50px; font-size: 20px; color: white; padding: 10px; text-align: center;">
-  <p>&copy; 2025 جميع الحقوق محفوظة. موقعك هنا.</p>
-</footer>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3848609364752049"
-     crossorigin="anonymous"></script>
-  <script src="script.js"></script>
+                <div class="rules-section">
+                    <h3>القواعد الاختيارية</h3>
+                    <div class="rule-option">
+                        <input type="checkbox" id="stackingRule">
+                        <label for="stackingRule">تكديس البطاقات (+2 و +4)</label>
+                    </div>
+                    <div class="rule-option">
+                        <input type="checkbox" id="sevenORule">
+                        <label for="sevenORule">قاعدة السبعة والصفر</label>
+                    </div>
+                    <div class="rule-option">
+                        <input type="checkbox" id="jumpInRule">
+                        <label for="jumpInRule">القفز في الدور</label>
+                    </div>
+                </div>
+
+                <div class="setup-buttons">
+                    <button id="startGameBtn" class="btn primary">بدء اللعبة</button>
+                    <button id="backToMenuBtn" class="btn secondary">العودة</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- شاشة اللعبة الرئيسية -->
+    <div id="gameScreen" class="screen">
+        <!-- عرض القواعد النشطة -->
+        <div id="rulesDisplay" class="rules-display hidden">
+            <h4>القواعد النشطة</h4>
+            <ul id="activeRulesList">
+                <!-- سيتم ملؤها بواسطة JavaScript -->
+            </ul>
+        </div>
+
+        <!-- شريط المعلومات العلوي -->
+        <div class="game-header">
+            <div class="game-info">
+                <div class="current-player">
+                    <span>الدور الحالي: </span>
+                    <span id="currentPlayerName">اللاعب 1</span>
+                </div>
+                <div class="direction-indicator">
+                    <i id="directionIcon" class="fas fa-arrow-right"></i>
+                </div>
+                <div class="cards-left">
+                    <span>البطاقات المتبقية: </span>
+                    <span id="deckCount">108</span>
+                </div>
+            </div>
+            <div class="game-controls">
+                <button id="menuBtn" class="control-btn" data-tooltip="القائمة الرئيسية" data-tooltip-type="button">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <button id="customizeCardsBtn" class="control-btn" data-tooltip="تخصيص تصميم البطاقات" data-tooltip-type="button">
+                    <i class="fas fa-palette"></i>
+                </button>
+                <button id="themeToggle" class="control-btn" data-tooltip="تبديل المظهر الليلي/النهاري" data-tooltip-type="button">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button id="soundToggle" class="control-btn" data-tooltip="تشغيل/إيقاف الأصوات" data-tooltip-type="button">
+                    <i class="fas fa-volume-up"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- منطقة اللعب -->
+        <div class="game-area">
+            <!-- لاعبين آخرين -->
+            <div class="opponents-area">
+                <div id="opponent1" class="opponent">
+                    <div class="player-info">
+                        <span class="player-name">اللاعب 2</span>
+                        <span class="card-count">7</span>
+                    </div>
+                    <div class="opponent-cards"></div>
+                </div>
+                <div id="opponent2" class="opponent">
+                    <div class="player-info">
+                        <span class="player-name">اللاعب 3</span>
+                        <span class="card-count">7</span>
+                    </div>
+                    <div class="opponent-cards"></div>
+                </div>
+                <div id="opponent3" class="opponent">
+                    <div class="player-info">
+                        <span class="player-name">اللاعب 4</span>
+                        <span class="card-count">7</span>
+                    </div>
+                    <div class="opponent-cards"></div>
+                </div>
+            </div>
+
+        <!-- منطقة اللعب المركزية -->
+        <div class="center-area">
+            <div class="deck-area">
+                <div id="discardPile" class="card-pile" data-tooltip="كومة البطاقات المرمية - العب بطاقة تطابق اللون أو الرقم" data-tooltip-type="card">
+                    <div class="card" id="topCard"></div>
+                </div>
+            </div>
+                
+                <!-- زر UNO -->
+                <button id="unoBtn" class="uno-button" disabled data-tooltip="اضغط عندما تبقى لديك بطاقة واحدة فقط!" data-tooltip-type="button">
+                    <span>UNO!</span>
+                </button>
+
+                <!-- منطقة اختيار اللون -->
+                <div id="colorPicker" class="color-picker hidden">
+                    <h3>اختر اللون</h3>
+                    <div class="color-options">
+                        <button class="color-btn red" data-color="red"></button>
+                        <button class="color-btn blue" data-color="blue"></button>
+                        <button class="color-btn yellow" data-color="yellow"></button>
+                        <button class="color-btn green" data-color="green"></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- يد اللاعب -->
+            <div class="player-area">
+                <div class="player-info">
+                    <span class="player-name">أنت</span>
+                </div>
+                <div id="playerHand" class="player-hand"></div>
+            </div>
+        </div>
+
+        <!-- أزرار الإجراءات في الجانب الأيسر -->
+        <div id="leftActionPanel" class="left-action-panel">
+            <button id="drawCardBtn" class="action-btn" data-tooltip="اسحب بطاقة من المجموعة إذا لم تتمكن من اللعب" data-tooltip-type="button">
+                <i class="fas fa-plus"></i>
+                سحب بطاقة
+            </button>
+            <button id="passBtn" class="action-btn" disabled data-tooltip="مرر دورك للاعب التالي" data-tooltip-type="button">
+                <i class="fas fa-forward"></i>
+                تمرير
+            </button>
+            <div class="chat-input-inline">
+                <input type="text" id="chatInput" placeholder="اكتب رسالة..." data-tooltip="أرسل رسالة للاعبين الآخرين" data-tooltip-type="info">
+                <button id="sendMessage" data-tooltip="إرسال الرسالة" data-tooltip-type="button">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- منطقة الدردشة (للعب الجماعي) -->
+        <div id="chatArea" class="chat-area hidden">
+            <div class="chat-header">
+                <h4>الدردشة</h4>
+                <button id="toggleChat" class="chat-toggle">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="chatMessages" class="chat-messages"></div>
+            <div class="chat-input">
+                <input type="text" id="chatInput" placeholder="اكتب رسالة...">
+                <button id="sendMessage">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- شاشة النتائج -->
+    <div id="resultsScreen" class="screen">
+        <div class="results-container">
+            <h2 id="gameResult">انتهت اللعبة!</h2>
+            <div id="finalScores" class="scores-table"></div>
+            <div class="results-buttons">
+                <button id="playAgainBtn" class="btn primary">لعب مرة أخرى</button>
+                <button id="mainMenuBtn" class="btn secondary">القائمة الرئيسية</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- شاشة الإعدادات -->
+    <div id="settingsScreen" class="screen">
+        <div class="settings-container">
+            <h2>الإعدادات</h2>
+            <div class="settings-options">
+                <div class="setting-group">
+                    <label for="language">اللغة:</label>
+                    <select id="language">
+                        <option value="ar" selected>العربية</option>
+                        <option value="en">English</option>
+                    </select>
+                </div>
+                
+                <div class="setting-group">
+                    <label for="volume">مستوى الصوت:</label>
+                    <input type="range" id="volume" min="0" max="100" value="50">
+                </div>
+
+                <div class="setting-group">
+                    <label for="animations">الرسوم المتحركة:</label>
+                    <input type="checkbox" id="animations" checked>
+                </div>
+
+                <div class="setting-group">
+                    <label for="autoPlay">اللعب التلقائي:</label>
+                    <input type="checkbox" id="autoPlay">
+                </div>
+            </div>
+            
+            <div class="settings-buttons">
+                <button id="saveSettingsBtn" class="btn primary">حفظ</button>
+                <button id="cancelSettingsBtn" class="btn secondary">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- لوحة التحكم في الصوت -->
+    <div id="audioControls" class="audio-controls">
+        <button id="soundToggle" class="audio-btn" title="تشغيل/إيقاف الأصوات">
+            <i class="fas fa-volume-up"></i>
+        </button>
+        <button id="musicToggle" class="audio-btn" title="تشغيل/إيقاف الموسيقى">
+            <i class="fas fa-music"></i>
+        </button>
+        <div class="volume-controls">
+            <div class="volume-group">
+                <label>الأصوات:</label>
+                <input type="range" id="soundVolume" min="0" max="100" value="70" class="volume-slider">
+            </div>
+            <div class="volume-group">
+                <label>الموسيقى:</label>
+                <input type="range" id="musicVolume" min="0" max="100" value="30" class="volume-slider">
+            </div>
+        </div>
+    </div>
+
+    <!-- رسائل التنبيه -->
+    <div id="notifications" class="notifications"></div>
+
+    <!-- شاشة التحميل المحسنة -->
+    <div id="loadingScreen" class="loading-screen hidden">
+        <div class="loading-container">
+            <!-- شعار UNO متحرك -->
+            <div class="loading-logo">
+                <span class="logo-letter uno-u">U</span>
+                <span class="logo-letter uno-n">N</span>
+                <span class="logo-letter uno-o">O</span>
+            </div>
+            
+            <!-- البطاقات المتحركة -->
+            <div class="loading-cards">
+                <div class="loading-card red" data-delay="0s">
+                    <span>7</span>
+                </div>
+                <div class="loading-card blue" data-delay="0.2s">
+                    <span>⊘</span>
+                </div>
+                <div class="loading-card yellow" data-delay="0.4s">
+                    <span>+2</span>
+                </div>
+                <div class="loading-card green" data-delay="0.6s">
+                    <span>⇄</span>
+                </div>
+                <div class="loading-card wild" data-delay="0.8s">
+                    <span>W</span>
+                </div>
+            </div>
+            
+            <!-- دائرة التحميل المتقدمة -->
+            <div class="loading-spinner-advanced">
+                <div class="spinner-outer">
+                    <div class="spinner-inner"></div>
+                </div>
+                <div class="spinner-dots">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+            </div>
+            
+            <!-- النص المتحرك -->
+            <div class="loading-text-container">
+                <h3 class="loading-title">جاري تحضير اللعبة</h3>
+                <p class="loading-subtitle" id="loadingSubtitle">يرجى الانتظار...</p>
+            </div>
+            
+            <!-- شريط التقدم المتقدم -->
+            <div class="loading-progress-container">
+                <div class="progress-track">
+                    <div class="progress-fill" id="progressFill"></div>
+                    <div class="progress-glow"></div>
+                </div>
+                <div class="progress-percentage" id="progressPercentage">0%</div>
+            </div>
+            
+            <!-- تأثيرات الخلفية -->
+            <div class="loading-particles">
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- قائمة تخصيص البطاقات -->
+    <div id="cardCustomization" class="card-customization hidden">
+        <div class="customization-panel">
+            <h3>تخصيص البطاقات</h3>
+            <div class="card-themes">
+                <div class="theme-option selected" data-theme="classic">
+                    <div class="theme-preview">
+                        <div class="card-back classic-back"></div>
+                    </div>
+                    <span>كلاسيكي</span>
+                </div>
+                <div class="theme-option" data-theme="modern">
+                    <div class="theme-preview">
+                        <div class="card-back modern-back"></div>
+                    </div>
+                    <span>عصري</span>
+                </div>
+                <div class="theme-option" data-theme="neon">
+                    <div class="theme-preview">
+                        <div class="card-back neon-back"></div>
+                    </div>
+                    <span>نيون</span>
+                </div>
+                <div class="theme-option" data-theme="galaxy">
+                    <div class="theme-preview">
+                        <div class="card-back galaxy-back"></div>
+                    </div>
+                    <span>مجرة</span>
+                </div>
+                <div class="theme-option" data-theme="wood">
+                    <div class="theme-preview">
+                        <div class="card-back wood-back"></div>
+                    </div>
+                    <span>خشبي</span>
+                </div>
+            </div>
+            <div class="customization-actions">
+                <button id="applyTheme" class="btn primary">تطبيق</button>
+                <button id="closeCustomization" class="btn secondary">إغلاق</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

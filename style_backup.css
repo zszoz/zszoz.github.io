@@ -1,0 +1,991 @@
+/* إعدادات عامة */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* ألوان UNO الأساسية */
+    --uno-red: #e53e3e;
+    --uno-blue: #3182ce;
+    --uno-yellow: #d69e2e;
+    --uno-green: #38a169;
+    --uno-black: #1a202c;
+    --uno-white: #ffffff;
+    
+    /* ألوان الواجهة */
+    --bg-primary: #f7fafc;
+    --bg-secondary: #edf2f7;
+    --bg-dark: #2d3748;
+    --text-primary: #2d3748;
+    --text-secondary: #4a5568;
+    --text-light: #ffffff;
+    
+    /* ظلال */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
+    
+    /* انتقالات */
+    --transition-fast: 0.15s ease;
+    --transition-normal: 0.3s ease;
+    --transition-slow: 0.5s ease;
+}
+
+/* الوضع المظلم */
+[data-theme="dark"] {
+    --bg-primary: #1a202c;
+    --bg-secondary: #2d3748;
+    --bg-dark: #f7fafc;
+    --text-primary: #ffffff;
+    --text-secondary: #e2e8f0;
+    --text-light: #2d3748;
+}
+
+body {
+    font-family: 'Cairo', sans-serif;
+    background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+    direction: rtl;
+}
+
+/* الشاشات */
+.screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition-normal);
+    z-index: 1;
+}
+
+.screen.active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 10;
+}
+
+/* شاشة البداية */
+.start-container {
+    text-align: center;
+    padding: 2rem;
+}
+
+.game-title {
+    font-size: 6rem;
+    font-weight: 700;
+    margin-bottom: 3rem;
+    text-shadow: var(--shadow-lg);
+}
+
+.uno-u { color: var(--uno-red); }
+.uno-n { color: var(--uno-yellow); }
+.uno-o { color: var(--uno-blue); }
+
+.start-options {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.start-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1.5rem 2rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, var(--uno-blue), var(--uno-green));
+    color: var(--uno-white);
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    box-shadow: var(--shadow-md);
+}
+
+.start-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+}
+
+.start-btn:active {
+    transform: translateY(0);
+}
+
+/* الأزرار العامة */
+.btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn.primary {
+    background: linear-gradient(135deg, var(--uno-blue), var(--uno-green));
+    color: var(--uno-white);
+}
+
+.btn.secondary {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 2px solid var(--text-secondary);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* شاشة إعداد اللعبة */
+.setup-container {
+    background: var(--uno-white);
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: var(--shadow-xl);
+    max-width: 500px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.setup-container h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--text-primary);
+}
+
+.option-group {
+    margin-bottom: 1.5rem;
+}
+
+.option-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.option-group select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid var(--bg-secondary);
+    border-radius: 10px;
+    font-size: 1rem;
+    background: var(--uno-white);
+    color: var(--text-primary);
+}
+
+.rules-section {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: var(--bg-primary);
+    border-radius: 15px;
+}
+
+.rules-section h3 {
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.rule-option {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.rule-option input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--uno-blue);
+}
+
+.setup-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.setup-buttons .btn {
+    flex: 1;
+}
+
+/* شاشة اللعبة الرئيسية */
+#gameScreen {
+    flex-direction: column;
+    padding: 0;
+    background: linear-gradient(135deg, #1e3a8a 0%, #059669 100%);
+}
+
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    width: 100%;
+}
+
+.game-info {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    color: var(--uno-white);
+    font-weight: 600;
+}
+
+.direction-indicator {
+    font-size: 1.5rem;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.game-controls {
+    display: flex;
+    gap: 1rem;
+}
+
+.control-btn {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    color: var(--uno-white);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.control-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+}
+
+/* منطقة اللعب */
+.game-area {
+    flex: 1;
+    display: grid;
+    grid-template-rows: 1fr auto 1fr;
+    padding: 2rem;
+    gap: 2rem;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* اللاعبين المنافسين */
+.opponents-area {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.opponent {
+    text-align: center;
+    color: var(--uno-white);
+}
+
+.player-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.player-name {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.card-count {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    font-size: 0.9rem;
+}
+
+.opponent-cards {
+    display: flex;
+    gap: -10px;
+}
+
+/* منطقة اللعب المركزية */
+.center-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.deck-area {
+    display: flex;
+    gap: 3rem;
+    align-items: center;
+}
+
+.card-pile {
+    position: relative;
+    width: 100px;
+    height: 140px;
+}
+
+/* البطاقات */
+.card {
+    width: 80px;
+    height: 120px;
+    border-radius: 12px;
+    border: 3px solid var(--uno-white);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    box-shadow: var(--shadow-md);
+    position: relative;
+    user-select: none;
+}
+
+.card.back {
+    background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+    color: var(--uno-white);
+}
+
+.card.back::before {
+    content: "UNO";
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.card.red { background: var(--uno-red); color: var(--uno-white); }
+.card.blue { background: var(--uno-blue); color: var(--uno-white); }
+.card.yellow { background: var(--uno-yellow); color: var(--uno-black); }
+.card.green { background: var(--uno-green); color: var(--uno-white); }
+.card.wild { 
+    background: linear-gradient(45deg, var(--uno-red) 25%, var(--uno-blue) 25%, var(--uno-blue) 50%, var(--uno-yellow) 50%, var(--uno-yellow) 75%, var(--uno-green) 75%);
+    color: var(--uno-white);
+}
+
+.card:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: var(--shadow-lg);
+}
+
+.card.playable {
+    animation: glow 1.5s infinite alternate;
+}
+
+@keyframes glow {
+    from { box-shadow: 0 0 5px rgba(255, 255, 255, 0.5); }
+    to { box-shadow: 0 0 20px rgba(255, 255, 255, 0.8); }
+}
+
+.card.selected {
+    transform: translateY(-10px) scale(1.1);
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.9);
+}
+
+/* زر UNO */
+.uno-button {
+    padding: 1rem 2rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--uno-red), var(--uno-yellow));
+    color: var(--uno-white);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    box-shadow: var(--shadow-lg);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.uno-button:hover:not(:disabled) {
+    transform: scale(1.1);
+    box-shadow: var(--shadow-xl);
+    animation: shake 0.5s;
+}
+
+.uno-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+@keyframes shake {
+    0%, 100% { transform: scale(1.1) rotate(0deg); }
+    25% { transform: scale(1.1) rotate(-5deg); }
+    75% { transform: scale(1.1) rotate(5deg); }
+}
+
+/* منتقي الألوان */
+.color-picker {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: var(--shadow-xl);
+    text-align: center;
+    backdrop-filter: blur(10px);
+}
+
+.color-picker.hidden {
+    display: none;
+}
+
+.color-picker h3 {
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+}
+
+.color-options {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.color-btn {
+    width: 60px;
+    height: 60px;
+    border: 3px solid var(--uno-white);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    box-shadow: var(--shadow-md);
+}
+
+.color-btn:hover {
+    transform: scale(1.1);
+    box-shadow: var(--shadow-lg);
+}
+
+.color-btn.red { background: var(--uno-red); }
+.color-btn.blue { background: var(--uno-blue); }
+.color-btn.yellow { background: var(--uno-yellow); }
+.color-btn.green { background: var(--uno-green); }
+
+/* منطقة اللاعب */
+.player-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.player-area .player-info {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    color: var(--uno-white);
+}
+
+.player-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.2);
+    color: var(--uno-white);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    font-weight: 600;
+}
+
+.action-btn:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.action-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.player-hand {
+    display: flex;
+    gap: -15px;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 100%;
+    overflow-x: auto;
+    padding: 1rem 0;
+}
+
+.player-hand .card {
+    margin: 0 -10px;
+    transition: all var(--transition-fast);
+}
+
+.player-hand .card:hover {
+    margin: 0 5px;
+    z-index: 10;
+}
+
+/* التصميم المتجاوب */
+@media (max-width: 768px) {
+    .game-title {
+        font-size: 4rem;
+    }
+    
+    .game-header {
+        padding: 0.5rem 1rem;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .game-info {
+        gap: 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .game-area {
+        padding: 1rem;
+        gap: 1rem;
+    }
+    
+    .opponents-area {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    
+    .deck-area {
+        gap: 1.5rem;
+    }
+    
+    .card {
+        width: 60px;
+        height: 90px;
+        font-size: 1rem;
+    }
+    
+    .player-hand {
+        gap: -20px;
+    }
+    
+    .player-hand .card {
+        margin: 0 -15px;
+    }
+}
+
+/* إخفاء العناصر */
+.hidden {
+    display: none !important;
+}
+
+
+/* تحسينات إضافية للتصميم */
+
+/* تأثيرات البطاقات المحسنة */
+.card {
+    position: relative;
+    overflow: hidden;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+    transform: translateX(-100%);
+    transition: transform 0.6s;
+}
+
+.card:hover::before {
+    transform: translateX(100%);
+}
+
+/* تأثير الضوء على البطاقات القابلة للعب */
+.card.playable {
+    position: relative;
+    animation: playableGlow 2s infinite;
+}
+
+@keyframes playableGlow {
+    0%, 100% { 
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        transform: scale(1);
+    }
+    50% { 
+        box-shadow: 0 0 25px rgba(255, 255, 255, 0.8);
+        transform: scale(1.02);
+    }
+}
+
+/* تحسين شريط المعلومات */
+.game-header {
+    background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%);
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* تحسين منطقة اللاعبين المنافسين */
+.opponent {
+    background: rgba(255,255,255,0.1);
+    border-radius: 15px;
+    padding: 1rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
+    transition: all var(--transition-normal);
+}
+
+.opponent:hover {
+    background: rgba(255,255,255,0.15);
+    transform: translateY(-2px);
+}
+
+/* تحسين منطقة اللعب المركزية */
+.deck-area {
+    background: rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 2rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+/* تأثيرات البطاقات المتحركة */
+.card-draw-animation {
+    animation: cardDraw 0.8s ease-out;
+}
+
+@keyframes cardDraw {
+    0% {
+        transform: translateX(-200px) rotate(-180deg) scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: translateX(-100px) rotate(-90deg) scale(0.5);
+        opacity: 0.5;
+    }
+    100% {
+        transform: translateX(0) rotate(0deg) scale(1);
+        opacity: 1;
+    }
+}
+
+.card-play-animation {
+    animation: cardPlay 0.6s ease-out;
+}
+
+@keyframes cardPlay {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(-50px) scale(1.2);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-100px) scale(0.8);
+        opacity: 0;
+    }
+}
+
+/* تحسين زر UNO */
+.uno-button {
+    position: relative;
+    overflow: hidden;
+}
+
+.uno-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.5s;
+}
+
+.uno-button:hover:not(:disabled)::before {
+    left: 100%;
+}
+
+/* تحسين أزرار التحكم */
+.control-btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.control-btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255,255,255,0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.3s;
+}
+
+.control-btn:hover::after {
+    width: 100%;
+    height: 100%;
+}
+
+/* تحسين منطقة يد اللاعب */
+.player-hand {
+    background: rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 1rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
+    margin-top: 1rem;
+}
+
+/* تأثيرات الفوز */
+.winner-effect {
+    animation: winnerCelebration 3s ease-in-out;
+}
+
+@keyframes winnerCelebration {
+    0%, 100% { transform: scale(1) rotate(0deg); }
+    10% { transform: scale(1.1) rotate(-2deg); }
+    20% { transform: scale(1.2) rotate(2deg); }
+    30% { transform: scale(1.1) rotate(-2deg); }
+    40% { transform: scale(1.2) rotate(2deg); }
+    50% { transform: scale(1.3) rotate(0deg); }
+    60% { transform: scale(1.2) rotate(-1deg); }
+    70% { transform: scale(1.1) rotate(1deg); }
+    80% { transform: scale(1.05) rotate(-0.5deg); }
+    90% { transform: scale(1.02) rotate(0.5deg); }
+}
+
+/* تحسين التنبيهات */
+.notification {
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
+    animation: notificationSlide 0.5s ease-out;
+}
+
+@keyframes notificationSlide {
+    0% {
+        transform: translateY(-100px) scale(0.8);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
+/* تحسين منتقي الألوان */
+.color-picker {
+    animation: colorPickerAppear 0.4s ease-out;
+}
+
+@keyframes colorPickerAppear {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.color-btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.color-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255,255,255,0.4);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.3s;
+}
+
+.color-btn:hover::before {
+    width: 120%;
+    height: 120%;
+}
+
+/* تحسين شاشة التحميل */
+.loading-screen {
+    backdrop-filter: blur(20px);
+}
+
+.loading-spinner {
+    position: relative;
+}
+
+.loading-spinner::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    border: 2px solid rgba(255,255,255,0.1);
+    border-top: 2px solid rgba(255,255,255,0.8);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: spin 0.8s linear infinite reverse;
+}
+
+/* تأثيرات الجسيمات للفوز */
+.confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background: #f0f;
+    animation: confetti-fall 3s linear infinite;
+}
+
+@keyframes confetti-fall {
+    0% {
+        transform: translateY(-100vh) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* تحسين التصميم المتجاوب للأجهزة الصغيرة */
+@media (max-width: 480px) {
+    .game-area {
+        grid-template-rows: auto auto auto;
+        gap: 0.5rem;
+    }
+    
+    .opponents-area {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
+    }
+    
+    .opponent {
+        padding: 0.5rem;
+        font-size: 0.8rem;
+    }
+    
+    .deck-area {
+        padding: 1rem;
+        gap: 1rem;
+    }
+    
+    .player-hand {
+        padding: 0.5rem;
+        gap: -25px;
+    }
+    
+    .player-hand .card {
+        margin: 0 -25px;
+        width: 45px;
+        height: 65px;
+        font-size: 0.7rem;
+    }
+    
+    .uno-button {
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+    }
+    
+    .action-btn {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.8rem;
+    }
+}
+
+/* تحسين الأداء */
+.card, .btn, .control-btn {
+    will-change: transform;
+}
+
+/* تأثيرات الإضاءة المحيطة */
+.game-area::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* تحسين التباين في الوضع المظلم */
+[data-theme="dark"] .card {
+    border-color: rgba(255,255,255,0.3);
+}
+
+[data-theme="dark"] .opponent,
+[data-theme="dark"] .deck-area,
+[data-theme="dark"] .player-hand {
+    background: rgba(0,0,0,0.3);
+    border-color: rgba(255,255,255,0.2);
+}
+
+/* تأثيرات الصوت البصرية */
+.sound-wave {
+    position: absolute;
+    width: 4px;
+    height: 20px;
+    background: currentColor;
+    animation: soundWave 1s infinite;
+    margin: 0 1px;
+}
+
+.sound-wave:nth-child(2) { animation-delay: 0.1s; }
+.sound-wave:nth-child(3) { animation-delay: 0.2s; }
+.sound-wave:nth-child(4) { animation-delay: 0.3s; }
+
+@keyframes soundWave {
+    0%, 100% { height: 20px; }
+    50% { height: 5px; }
+}
+
