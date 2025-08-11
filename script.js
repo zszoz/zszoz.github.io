@@ -5038,3 +5038,289 @@ const tooltipManager = new TooltipManager();
 // ===== تكامل الميزات الجديدة مع اللعبة =====
 
 // تحديث GameManager لدعم الميزات الجديدة
+
+// ===== إدارة واجهة التحكم بالصوت المحسنة =====
+class MobileAudioController {
+    constructor() {
+        this.isOpen = false;
+        this.audioToggleBtn = null;
+        this.audioPanel = null;
+        this.soundToggle = null;
+        this.musicToggle = null;
+        this.soundVolume = null;
+        this.musicVolume = null;
+        this.soundVolumeValue = null;
+        this.musicVolumeValue = null;
+        this.muteAllBtn = null;
+        this.maxVolumeBtn = null;
+        this.closeBtn = null;
+        
+        this.init();
+    }
+
+    init() {
+        this.bindElements();
+        this.attachEventListeners();
+        this.updateVolumeDisplays();
+        this.updateButtonStates();
+    }
+
+    bindElements() {
+        this.audioToggleBtn = document.getElementById('audioToggleBtn');
+        this.audioPanel = document.getElementById('audioPanel');
+        this.soundToggle = document.getElementById('soundToggle');
+        this.musicToggle = document.getElementById('musicToggle');
+        this.soundVolume = document.getElementById('soundVolume');
+        this.musicVolume = document.getElementById('musicVolume');
+        this.soundVolumeValue = document.getElementById('soundVolumeValue');
+        this.musicVolumeValue = document.getElementById('musicVolumeValue');
+        this.muteAllBtn = document.getElementById('muteAll');
+        this.maxVolumeBtn = document.getElementById('maxVolume');
+        this.closeBtn = document.getElementById('closeAudioPanel');
+    }
+
+    attachEventListeners() {
+        // زر التحكم الرئيسي
+        if (this.audioToggleBtn) {
+            this.audioToggleBtn.addEventListener('click', () => this.togglePanel());
+        }
+
+        // زر الإغلاق
+        if (this.closeBtn) {
+            this.closeBtn.addEventListener('click', () => this.closePanel());
+        }
+
+        // أزرار التحكم في الصوت
+        if (this.soundToggle) {
+            this.soundToggle.addEventListener('click', () => this.toggleSound());
+        }
+
+        if (this.musicToggle) {
+            this.musicToggle.addEventListener('click', () => this.toggleMusic());
+        }
+
+        // شرائح التحكم في مستوى الصوت
+        if (this.soundVolume) {
+            this.soundVolume.addEventListener('input', (e) => this.updateSoundVolume(e.target.value));
+        }
+
+        if (this.musicVolume) {
+            this.musicVolume.addEventListener('input', (e) => this.updateMusicVolume(e.target.value));
+        }
+
+        // الأزرار السريعة
+        if (this.muteAllBtn) {
+            this.muteAllBtn.addEventListener('click', () => this.muteAll());
+        }
+
+        if (this.maxVolumeBtn) {
+            this.maxVolumeBtn.addEventListener('click', () => this.maxVolume());
+        }
+
+        // إغلاق اللوحة عند النقر خارجها
+        document.addEventListener('click', (e) => {
+            if (this.isOpen && !this.audioToggleBtn.contains(e.target) && !this.audioPanel.contains(e.target)) {
+                this.closePanel();
+            }
+        });
+
+        // إغلاق اللوحة عند الضغط على Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.isOpen) {
+                this.closePanel();
+            }
+        });
+    }
+
+    togglePanel() {
+        if (this.isOpen) {
+            this.closePanel();
+        } else {
+            this.openPanel();
+        }
+    }
+
+    openPanel() {
+        if (!this.audioPanel) return;
+        
+        this.isOpen = true;
+        this.audioPanel.classList.remove('hidden');
+        this.audioPanel.classList.add('slide-in');
+        this.audioToggleBtn.classList.add('active');
+        
+        // إزالة فئة الرسوم المتحركة بعد انتهائها
+        setTimeout(() => {
+            this.audioPanel.classList.remove('slide-in');
+        }, 300);
+    }
+
+    closePanel() {
+        if (!this.audioPanel) return;
+        
+        this.audioPanel.classList.add('slide-out');
+        this.audioToggleBtn.classList.remove('active');
+        
+        setTimeout(() => {
+            this.isOpen = false;
+            this.audioPanel.classList.add('hidden');
+            this.audioPanel.classList.remove('slide-out');
+        }, 200);
+    }
+
+    toggleSound() {
+        if (audioManager) {
+            const isEnabled = audioManager.toggleSound();
+            this.updateSoundButton(isEnabled);
+            this.updateMainButton();
+            
+            // تشغيل صوت تجريبي
+            if (isEnabled) {
+                audioManager.playSound('cardPlay');
+            }
+        }
+    }
+
+    toggleMusic() {
+        if (audioManager) {
+            const isEnabled = audioManager.toggleMusic();
+            this.updateMusicButton(isEnabled);
+            this.updateMainButton();
+        }
+    }
+
+    updateSoundVolume(value) {
+        if (audioManager) {
+            audioManager.setSoundVolume(value / 100);
+            this.soundVolumeValue.textContent = value + '%';
+            
+            // تشغيل صوت تجريبي
+            audioManager.playSound('cardPlay');
+        }
+    }
+
+    updateMusicVolume(value) {
+        if (audioManager) {
+            audioManager.setMusicVolume(value / 100);
+            this.musicVolumeValue.textContent = value + '%';
+        }
+    }
+
+    muteAll() {
+        if (audioManager) {
+            audioManager.soundEnabled = false;
+            audioManager.musicEnabled = false;
+            
+            this.soundVolume.value = 0;
+            this.musicVolume.value = 0;
+            this.soundVolumeValue.textContent = '0%';
+            this.musicVolumeValue.textContent = '0%';
+            
+            this.updateButtonStates();
+            this.updateMainButton();
+        }
+    }
+
+    maxVolume() {
+        if (audioManager) {
+            audioManager.soundEnabled = true;
+            audioManager.musicEnabled = true;
+            audioManager.setSoundVolume(1);
+            audioManager.setMusicVolume(0.7);
+            
+            this.soundVolume.value = 100;
+            this.musicVolume.value = 70;
+            this.soundVolumeValue.textContent = '100%';
+            this.musicVolumeValue.textContent = '70%';
+            
+            this.updateButtonStates();
+            this.updateMainButton();
+            
+            // تشغيل صوت تجريبي
+            audioManager.playSound('cardPlay');
+        }
+    }
+
+    updateVolumeDisplays() {
+        if (this.soundVolumeValue && this.soundVolume) {
+            this.soundVolumeValue.textContent = this.soundVolume.value + '%';
+        }
+        if (this.musicVolumeValue && this.musicVolume) {
+            this.musicVolumeValue.textContent = this.musicVolume.value + '%';
+        }
+    }
+
+    updateButtonStates() {
+        if (audioManager) {
+            this.updateSoundButton(audioManager.soundEnabled);
+            this.updateMusicButton(audioManager.musicEnabled);
+            this.updateMainButton();
+        }
+    }
+
+    updateSoundButton(isEnabled) {
+        if (this.soundToggle) {
+            const icon = this.soundToggle.querySelector('i');
+            if (isEnabled) {
+                this.soundToggle.classList.remove('muted');
+                icon.className = 'fas fa-volume-up';
+            } else {
+                this.soundToggle.classList.add('muted');
+                icon.className = 'fas fa-volume-mute';
+            }
+        }
+    }
+
+    updateMusicButton(isEnabled) {
+        if (this.musicToggle) {
+            const icon = this.musicToggle.querySelector('i');
+            if (isEnabled) {
+                this.musicToggle.classList.remove('muted');
+                icon.className = 'fas fa-music';
+            } else {
+                this.musicToggle.classList.add('muted');
+                icon.className = 'fas fa-music';
+            }
+        }
+    }
+
+    updateMainButton() {
+        if (this.audioToggleBtn && audioManager) {
+            const icon = this.audioToggleBtn.querySelector('i');
+            const isMuted = !audioManager.soundEnabled && !audioManager.musicEnabled;
+            
+            if (isMuted) {
+                this.audioToggleBtn.classList.add('muted');
+                icon.className = 'fas fa-volume-mute';
+            } else {
+                this.audioToggleBtn.classList.remove('muted');
+                icon.className = 'fas fa-volume-up';
+            }
+        }
+    }
+
+    // دالة لتحديث الحالة من الخارج
+    syncWithAudioManager() {
+        if (audioManager) {
+            this.soundVolume.value = Math.round(audioManager.soundVolume * 100);
+            this.musicVolume.value = Math.round(audioManager.musicVolume * 100);
+            this.updateVolumeDisplays();
+            this.updateButtonStates();
+        }
+    }
+}
+
+// إنشاء مثيل من المتحكم الصوتي المحمول
+let mobileAudioController;
+
+// تهيئة المتحكم عند تحميل الصفحة
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(() => {
+        mobileAudioController = new MobileAudioController();
+        
+        // مزامنة مع AudioManager إذا كان موجوداً
+        if (audioManager) {
+            mobileAudioController.syncWithAudioManager();
+        }
+    }, 1000);
+});
+

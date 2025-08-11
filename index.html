@@ -283,22 +283,64 @@
         </div>
     </div>
 
-    <!-- لوحة التحكم في الصوت -->
-    <div id="audioControls" class="audio-controls">
-        <button id="soundToggle" class="audio-btn" title="تشغيل/إيقاف الأصوات">
+    <!-- لوحة التحكم في الصوت المحسنة - ديناميكية وموفرة للمساحة -->
+    <div id="audioControls" class="audio-controls-mobile">
+        <!-- زر التحكم الرئيسي -->
+        <button id="audioToggleBtn" class="audio-toggle-btn" data-tooltip="التحكم في الصوت" data-tooltip-type="button">
             <i class="fas fa-volume-up"></i>
         </button>
-        <button id="musicToggle" class="audio-btn" title="تشغيل/إيقاف الموسيقى">
-            <i class="fas fa-music"></i>
-        </button>
-        <div class="volume-controls">
-            <div class="volume-group">
-                <label>الأصوات:</label>
-                <input type="range" id="soundVolume" min="0" max="100" value="70" class="volume-slider">
-            </div>
-            <div class="volume-group">
-                <label>الموسيقى:</label>
-                <input type="range" id="musicVolume" min="0" max="100" value="30" class="volume-slider">
+        
+        <!-- لوحة التحكم المنبثقة -->
+        <div id="audioPanel" class="audio-panel hidden">
+            <div class="audio-panel-content">
+                <div class="audio-header">
+                    <h4>إعدادات الصوت</h4>
+                    <button id="closeAudioPanel" class="close-btn">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="audio-controls-grid">
+                    <!-- تحكم الأصوات -->
+                    <div class="audio-control-item">
+                        <div class="control-header">
+                            <button id="soundToggle" class="audio-btn" data-tooltip="تشغيل/إيقاف الأصوات">
+                                <i class="fas fa-volume-up"></i>
+                            </button>
+                            <span class="control-label">الأصوات</span>
+                        </div>
+                        <div class="volume-control">
+                            <input type="range" id="soundVolume" min="0" max="100" value="70" class="volume-slider">
+                            <span id="soundVolumeValue" class="volume-value">70%</span>
+                        </div>
+                    </div>
+                    
+                    <!-- تحكم الموسيقى -->
+                    <div class="audio-control-item">
+                        <div class="control-header">
+                            <button id="musicToggle" class="audio-btn" data-tooltip="تشغيل/إيقاف الموسيقى">
+                                <i class="fas fa-music"></i>
+                            </button>
+                            <span class="control-label">الموسيقى</span>
+                        </div>
+                        <div class="volume-control">
+                            <input type="range" id="musicVolume" min="0" max="100" value="30" class="volume-slider">
+                            <span id="musicVolumeValue" class="volume-value">30%</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- أزرار سريعة -->
+                <div class="quick-actions">
+                    <button id="muteAll" class="quick-btn">
+                        <i class="fas fa-volume-mute"></i>
+                        كتم الكل
+                    </button>
+                    <button id="maxVolume" class="quick-btn">
+                        <i class="fas fa-volume-up"></i>
+                        أقصى صوت
+                    </button>
+                </div>
             </div>
         </div>
     </div>
